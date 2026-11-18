@@ -40,8 +40,8 @@ section{padding:clamp(40px,5.5vw,68px) clamp(18px,6vw,90px);max-width:1280px;mar
 @keyframes bl{50%{opacity:0}}
 .tag{font:600 .8rem var(--m);color:var(--g);margin:0 0 12px}
 h2{font:700 clamp(2rem,5.6vw,4.4rem) var(--d);line-height:1.05;letter-spacing:-.03em;margin:0 0 20px;max-width:16ch}
-.rv{opacity:0;clip-path:inset(0 0 100% 0);transform:translateY(30px);transition:opacity .9s,clip-path .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
-.rv.in{opacity:1;clip-path:inset(0);transform:none}
+.rv{opacity:0;transform:translateY(34px);filter:blur(6px);transition:opacity .9s,filter .9s,transform .9s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;filter:none;transform:none}
 .lead{color:var(--mut);max-width:62ch}
 .tr{display:grid;gap:16px;margin-top:28px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
 .tr div{border-left:2px solid var(--g);padding:4px 0 4px 18px}
@@ -138,7 +138,9 @@ function typer(){const w=['secure systems.','trusted technology.','global opport
 /* reveal + counter */
 const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){const t=en.target;setTimeout(()=>t.classList.add('in'),(t.dataset.dl||0));io.unobserve(t);if(t.querySelector('#n'))count()}}),{threshold:.12});
 document.querySelectorAll('.rv').forEach(e=>{const p=e.parentElement;if(p.classList.contains('sk'))e.dataset.dl=[...p.children].indexOf(e)%3*110;io.observe(e)});
-function count(){const n=document.getElementById('n'),to=+n.dataset.to;if(RM){n.textContent=to;return}const t0=performance.now();(function f(t){const p=Math.min((t-t0)/1800,1);n.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)}
+function count(){if(window.cd)return;window.cd=1;const n=document.getElementById('n'),to=+n.dataset.to;if(RM){n.textContent=to;return}const t0=performance.now();(function f(t){const p=Math.min((t-t0)/1800,1);n.textContent=Math.round(to*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(t0)}
+function chk(){document.querySelectorAll('.rv:not(.in)').forEach(e=>{if(e.getBoundingClientRect().top<innerHeight*.92){e.classList.add('in');if(e.querySelector('#n'))count()}})}
+addEventListener('scroll',chk,{passive:true});addEventListener('load',chk);addEventListener('resize',chk);setTimeout(chk,1200);chk();
 /* progress */
 const bar=document.getElementById('bar');addEventListener('scroll',()=>{bar.style.width=scrollY/(document.documentElement.scrollHeight-innerHeight)*100+'%'},{passive:true});
 /* cursor + tilt */
